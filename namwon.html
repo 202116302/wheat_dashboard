@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>디지털 밀 양수분 관리 스마트 플랫폼</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" type="text/css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <style>
+            card-body {
+                background: darkblue;
+            }
+             .switch {
+                 position: relative;
+                 display: inline-block;
+                 width: 60px;
+                 height: 34px;
+             }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+
+            .block {
+                float: left;
+                position: relative;
+                left: 30%
+            }
+
+            #date {
+                float: left;
+            }
+
+            .bi-stopwatch {
+                float: left;
+            }
+
+        </style>
+    </head>
+    <body onload="post_query(), weather()">
+     <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="row" style="padding-left: 50px">
+                <a class="navbar-brand" href="#!">디지털 밀 양수분 관리 스마트 플랫폼</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <script>
+        function post_query() {
+            $.ajax({
+                type: "GET",
+                url: "https://api.taegon.kr/stations/247/?sy=2022",
+                success: update_result,
+                dataType: "json"
+            });
+        }
+        function update_result(data) {
+            $("#humid").html(data[data.length -1]["humid"])
+            $("#tavg").html(data[data.length -1]["tavg"])
+            $("#sunshine").html(data[data.length -1]["sunshine"])
+            $("#rainfall").html(data[data.length -1]["rainfall"])
+            $("#wind").html(data[data.length -1]["wind"])
+            $("#date").html(data[data.length -1]["Date"])
+        }
+
+        function weather(){
+             $.ajax({
+              type: "GET",
+              url: "./data.json",
+              success: update_weather,
+              dataType: "json"
+            });
+        }
+
+        function update_weather(data){
+            $("#date1").html(data[1][0])
+            $("#date2").html(data[1][1])
+            $("#date3").html(data[1][2])
+            $("#date4").html(data[1][3])
+            $("#date5").html(data[1][4])
+            $("#sky1").html(data[4][data[0][0]])
+            $("#sky2").html(data[4][data[0][1]])
+            $("#sky3").html(data[4][data[0][2]])
+            $("#sky4").html(data[4][data[0][3]])
+            $("#sky5").html(data[4][data[0][4]])
+            $("#rainfall1").html(data[2][data[0][0]])
+            $("#rainfall2").html(data[2][data[0][1]])
+            $("#rainfall3").html(data[2][data[0][2]])
+            $("#rainfall4").html(data[2][data[0][3]])
+            $("#rainfall5").html(data[2][data[0][4]])
+            $("#tmin1").html(data[5][data[0][0]])
+            $("#tmin2").html(data[5][data[0][1]])
+            $("#tmin3").html(data[5][data[0][2]])
+            $("#tmin4").html(data[5][data[0][3]])
+            $("#tmin5").html(data[5][data[0][4]])
+            $("#tmax1").html(data[6][data[0][0]])
+            $("#tmax2").html(data[6][data[0][1]])
+            $("#tmax3").html(data[6][data[0][2]])
+            $("#tmax4").html(data[6][data[0][3]])
+            $("#tmax5").html(data[6][data[0][4]])
+        }
+
+
+        </script>
+        <!-- Header-->
+        <header class="py-2">
+                <div class="row justify-content-md-center">
+                    <div class="col-xxl-6 mb-3">
+                        <div class="card bg-primary border-0 h-100">
+                            <div class="card-body p-4 px-lg-5 pt-0 pt-lg-0">
+                                <div class="row" style="padding-top: 20px">
+                                    <div class="row g-2 col-xxl-2" style="border-right: solid;">
+                                        <h2 class="fs-1 mt-1 fw-bold text-center">남원</h2>
+                                        <i class="bi bi-stopwatch"></i><p id="date"></p>
+                                    </div>
+                                    <div class="row g-2 col-xxl-8" style="border-right: solid;">
+                                        <table class="table fs-5 text-center" style="border-color:#f8f9fa; border-collapse:unset">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">온도</th>
+                                                <th scope="col">습도</th>
+                                                <th scope="col">강수량</th>
+                                                <th scope="col">일사량</th>
+                                                <th scope="col">바람</th>
+                                            <tbody>
+                                            <tr>
+                                                <td><div id="tavg"></div><span class="fs-6">°C</span></td>
+                                                <td><div id="humid"></div><span class="fs-6">%</span></td>
+                                                <td><div id="rainfall"></div><span class="fs-6">mm</span></td>
+                                                <td><div id="sunshine"></div><span class="fs-6">w/m<sup>2</sup></span></td>
+                                                <td><div id="wind"></div><span class="fs-6">m/s</span><br>북서풍</td>
+                                            </tr>
+                                            </tbody>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="row g-2 col-xxl-2">
+                                        <h2 class="fs-4 mt-2 fw-bold text-end">&ensp;월 강수량</h2>
+                                        <h2 class="fs-4 mt-2 fw-bold text-end">&ensp;49.50<span class="fs-6">mm</span></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xxl-6 mb-3">
+                        <div class="card bg-primary border-0 h-100">
+                            <div class="card-body text-center p-4 px-lg-5 pt-0 pt-lg-0">
+                                <h2 class="fs-6 mt-1 fw-bold">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">일자</th>
+                                            <th scope="col"><div id="date1"></div></th>
+                                            <th scope="col"><div id="date2"></div></th>
+                                            <th scope="col"><div id="date3"></div></th>
+                                            <th scope="col"><div id="date4"></div></th>
+                                            <th scope="col"><div id="date5"></div></th>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">날씨</th>
+                                            <td><div id="sky1"></div></td>
+                                            <td><div id="sky2"></div></td>
+                                            <td><div id="sky3"></div></td>
+                                            <td><div id="sky4"></div></td>
+                                            <td><div id="sky5"></div></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">강수확률</th>
+                                            <td><div id="rainfall1"></div></td>
+                                            <td><div id="rainfall2"></div></td>
+                                            <td><div id="rainfall3"></div></td>
+                                            <td><div id="rainfall4"></div></td>
+                                            <td><div id="rainfall5"></div></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">최저/최고 기온</th>
+                                            <td><div class="block" id="tmin1"></div><div class="block">/</div><div id="tmax1" class="block"></div></td>
+                                            <td><div class="block" id="tmin2"></div><div class="block">/</div><div id="tmax2" class="block"></div></td>
+                                            <td><div class="block" id="tmin3"></div><div class="block">/</div><div id="tmax3" class="block"></div></td>
+                                            <td><div class="block" id="tmin4"></div><div class="block">/</div><div id="tmax4" class="block"></div></td>
+                                            <td><div class="block" id="tmin5"></div><div class="block">/</div><div id="tmax5" class="block"></div></td>
+                                        </tr>
+                                        </tbody>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </header>
+        <!-- Page Content-->
+        <section class="py-1">
+<!--            <div class="container">-->
+                <!-- Page Features-->
+                <div class="row">
+                <div class="row g-2 col-xxl-9">
+                    <div class="row g-2 col-xxl-1">
+                        <div class="col-lg-6 col-xxl-12">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-5 fw-bold text-warning">측정</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2 col-xxl-11">
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">토양수분 1</h2>
+                                    <p class="fs-4 mb-0 mt-4 fw-bold text-center"><i class="bi bi-moisture"></i>&emsp;12%</p>
+                                    <h6 class="mb-0 mt-5 text-center"><i class="bi bi-stopwatch"></i>&ensp; 2022-09-07 19:00:00</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">토양수분 2</h2>
+                                    <p class="fs-4 mb-0 mt-4 fw-bold text-center"><i class="bi bi-moisture"></i>&emsp;12%</p>
+                                    <h6 class="mb-0 mt-5 text-center"><i class="bi bi-stopwatch"></i>&ensp; 2022-09-07 19:00:00</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">토양수분 3</h2>
+                                    <p class="fs-4 mb-0 mt-4 fw-bold text-center"><i class="bi bi-moisture"></i>&emsp;12%</p>
+                                    <h6 class="mb-0 mt-5 text-center"><i class="bi bi-stopwatch"></i>&ensp; 2022-09-07 19:00:00</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">토양수분 4</h2>
+                                    <p class="fs-4 mb-0 mt-4 fw-bold text-center"><i class="bi bi-moisture"></i>&emsp;12%</p>
+                                    <h6 class="mb-0 mt-5 text-center"><i class="bi bi-stopwatch"></i>&ensp; 2022-09-07 19:00:00</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2 col-xxl-1">
+                        <div class="col-lg-6 col-xxl-12">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-5 fw-bold text-info">제어</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2 col-xxl-11">
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">관수제어 1</h2>
+                                    <p class="fs-4 mb-0 mt-4 fw-bold text-center"><i class="bi bi-droplet-fill"></i>&emsp;30mm</p>
+                                    <div class="mt-2" style="padding: 10px 0;">
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">관수제어 2</h2>
+                                    <p class="fs-4 mb-0 mt-4 fw-bold text-center"><i class="bi bi-droplet-fill"></i>&emsp;30mm</p>
+                                    <div class="mt-2" style="padding: 10px 0;">
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">관수제어 3</h2>
+                                    <p class="fs-4 mb-0 mt-4 fw-bold text-center"><i class="bi bi-droplet-fill"></i>&emsp;30mm</p>
+                                    <div class="mt-2" style="padding: 10px 0;">
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">관수제어 4</h2>
+                                    <p class="fs-4 mb-0 mt-4 fw-bold text-center"><i class="bi bi-droplet-fill"></i>&emsp;30mm</p>
+                                    <div class="mt-2" style="padding: 10px 0;">
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="row g-0 col-lg-6 col-xxl-3">-->
+<!--                        <div class="card bg-primary border-0 h-100">-->
+<!--                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="row g-2 col-xxl-1">
+                        <div class="col-lg-6 col-xxl-12">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-5 fw-bold text-primary">측정</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2 col-xxl-11">
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">생육정보 1</h2>
+                                    <h5 class="fw-bold mt-4 text-start">초장길이:25 cm</h5>
+                                    <h5 class="fw-bold text-start">LAI:2.1</h5>
+                                    <h5 class="fw-bold text-start">종자중량:10 g</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">생육정보 2</h2>
+                                    <h5 class="fw-bold mt-4 text-start">초장길이:25 cm</h5>
+                                    <h5 class="fw-bold text-start">LAI:2.1</h5>
+                                    <h5 class="fw-bold text-start">종자중량:10 g</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">생육정보 3</h2>
+                                    <h5 class="fw-bold mt-4 text-start">초장길이:25 cm</h5>
+                                    <h5 class="fw-bold text-start">LAI:2.1</h5>
+                                    <h5 class="fw-bold text-start">종자중량:10 g</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xxl-3">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-4 pt-0 pt-lg-0">
+                                    <h2 class="fs-4 mt-3 fw-bold text-start">생육정보 4</h2>
+                                    <h5 class="fw-bold mt-4 text-start">초장길이:25 cm</h5>
+                                    <h5 class="fw-bold text-start">LAI:2.1</h5>
+                                    <h5 class="fw-bold text-start">종자중량:10 g</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="row g-0 col-lg-6 col-xxl-3">-->
+<!--                        <div class="card bg-primary border-0 h-100">-->
+<!--                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+                    <div class="row g-2 col-xxl-3">
+                        <div class="row g-0 col-lg-12 col-xxl-12 mb-lg-12">
+                            <div class="card bg-primary border-0 h-100">
+                                <div class="card-body text-center pt-0">
+                                    <h2 class="fs-4 fw-bold">포장 배치도</h2>
+                                    <img src="img/map_1.PNG" alt="map" width="437px" height="288px">
+                                    <img src="img/map_2.PNG" alt="map2" width="437px" height="184px" style="padding-top:40px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+<!--        <footer class="py-5 bg-dark"></footer>-->
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
