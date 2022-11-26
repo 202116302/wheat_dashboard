@@ -11,7 +11,7 @@
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" type="text/css" rel="stylesheet" />
+        <link href="static/css/styles.css" type="text/css" rel="stylesheet" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <style>
             card-body {
@@ -125,7 +125,7 @@
         function weather(){
              $.ajax({
               type: "GET",
-              url: "./data.json",
+              url: "http://192.168.0.7:5000/sky/",
               success: update_weather,
               dataType: "json"
             });
@@ -438,8 +438,8 @@
                             <div class="card bg-primary border-0 h-100">
                                 <div class="card-body text-center pt-0">
                                     <h2 class="fs-4 fw-bold">포장 배치도</h2>
-                                    <img src="img/map_1.PNG" alt="map" width="437px" height="288px">
-                                    <img src="img/map_2.PNG" alt="map2" width="437px" height="184px" style="padding-top:40px">
+                                    <img src="static/img/map_1.PNG" alt="map" width="437px" height="288px">
+                                    <img src="static/img/map_2.PNG" alt="map2" width="437px" height="184px" style="padding-top:40px">
                                 </div>
                             </div>
                         </div>

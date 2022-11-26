@@ -4,6 +4,10 @@ import statistics
 import requests
 import datetime
 from json import dumps
+from flask import Flask, request, escape, render_template
+from flask_cors import cross_origin
+
+app = Flask(__name__)
 
 try:
     from urllib import urlencode, unquote
@@ -73,7 +77,14 @@ def add_url_params(url, params):
     return items
 
 
-def main():
+@app.route("/")
+def home():
+    return render_template('iksan.html')
+
+
+@app.route("/sky/")
+@cross_origin(origin='*')
+def sky():
     items = add_url_params(url, new_param)
     weather_total = dict()
     rainfall = dict()
@@ -162,8 +173,14 @@ def main():
 
     weather = [weather_date, days, rainfall, humid, sky, tmin, tmax]
 
-    with open('./data.json', 'w', encoding='utf-8-sig') as f:
-        json.dump(weather, f, ensure_ascii=False, indent=4)
+    # with open('./data.json', 'w', encoding='utf-8-sig') as f:
+    #     json.dump(weather, f, ensure_ascii=False, indent=4)
+
+    return weather
+
+
+def main():
+    app.run(host='0.0.0.0', debug=True)
 
 
 if __name__ == '__main__':
