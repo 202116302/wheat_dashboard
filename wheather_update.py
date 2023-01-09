@@ -36,8 +36,12 @@ yesterday = y.strftime("%Y%m%d")  # 어제날짜
 now = datetime.datetime.now()  # 현재 날짜, 시각
 hour = now.hour  # 현재시각
 # 예보지점의 x, y 좌표값
-nx = '68'
-ny = '80'
+nx_namwon = '68'
+ny_namwon = '80'
+
+
+nx_iksan = '59'
+ny_iksan = '94'
 
 # ----요청 시각, 날짜 재조정
 for i in range(8):
@@ -50,9 +54,11 @@ if hour < 2:
 
 time_hour = f"{hour:02d}" + "00"
 
-new_param = {'ServiceKey': serviceKey, 'pageNo': pageNo, 'numOfRows': numOfRaws,
-             'dataType': datatype, 'base_date': today, 'base_time': time_hour, 'nx': nx, 'ny': ny}
+new_param_namwon = {'ServiceKey': serviceKey, 'pageNo': pageNo, 'numOfRows': numOfRaws,
+             'dataType': datatype, 'base_date': today, 'base_time': time_hour, 'nx': nx_namwon, 'ny': ny_namwon}
 
+new_param_iksan = {'ServiceKey': serviceKey, 'pageNo': pageNo, 'numOfRows': numOfRaws,
+             'dataType': datatype, 'base_date': today, 'base_time': time_hour, 'nx': nx_iksan, 'ny': ny_iksan}
 
 def add_url_params(url, params):
     url = unquote(url)
@@ -82,10 +88,21 @@ def home():
     return render_template('iksan.html')
 
 
-@app.route("/sky/")
+@app.route("/weather/<city>")
 @cross_origin(origin='*')
-def sky():
-    items = add_url_params(url, new_param)
+def weather(city):
+    print(city, city == "iksan")
+    if city == 'namwon':
+        return sky(new_param_namwon)
+    elif city == "iksan":
+        return sky(new_param_iksan)
+    else:
+        return "해당지역없음"
+
+
+
+def sky(loc):
+    items = add_url_params(url, loc)
     weather_total = dict()
     rainfall = dict()
     humid = dict()
